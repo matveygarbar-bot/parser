@@ -1,0 +1,17 @@
+services:
+  - type: worker
+    name: courier-watcher-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: TG_TOKEN
+        sync: false
+      - key: TG_CHAT_IDS
+        sync: false
+      - key: SOCKS_PROXY
+        sync: false
+      - key: CHECK_INTERVAL
+        value: "45"
+      - key: PYTHON_VERSION
+        value: "3.11"
