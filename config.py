@@ -27,3 +27,4 @@ CITIES = {
 
 HH_SEARCH_TEXT = "курьер"
 SEEN_FILE = "seen.json"
+PORT = os.getenv("PORT", "8080")

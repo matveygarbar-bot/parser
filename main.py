@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from datetime import datetime
+from aiohttp import web
 
 import config
 from parser_avito import fetch_avito
@@ -60,24 +61,34 @@ async def check_hh(storage: SeenStorage, notifier: TelegramNotifier):
             logger.error("HH [%s] check failed: %s", city["name"], e)
 
 
-async def main():
-    logger.info("Starting courier watcher bot for SPb, Petrozavodsk, Yaroslavl...")
+async def health(request):
+    return web.Response(text="ok")
 
+
+async def run_bot():
     storage = SeenStorage(config.SEEN_FILE)
     notifier = TelegramNotifier(config.TELEGRAM_TOKEN, config.CHAT_IDS)
-
-    await notifier.send("🤖 Бот запущен. Отслеживаю вакансии курьеров в СПб, Петрозаводске, Ярославле...")
-
+    await notifier.send("Bot запущен. Отслеживаю курьеров в СПб, Петрозаводске, Ярославле...")
     while True:
         now = datetime.now().strftime("%H:%M:%S")
         logger.info("--- Check cycle at %s ---", now)
-
         await asyncio.gather(
             check_avito(storage, notifier),
             check_hh(storage, notifier),
         )
-
         await asyncio.sleep(config.CHECK_INTERVAL)
+
+
+async def main():
+    app = web.Application()
+    app.router.add_get("/", health)
+    app.router.add_get("/health", health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", int(config.PORT))
+    await site.start()
+    logger.info("Health server started on port %s", config.PORT)
+    await run_bot()
 
 
 if __name__ == "__main__":
