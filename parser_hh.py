@@ -14,6 +14,32 @@ HH_HEADERS = {
     "Connection": "keep-alive",
 }
 
+HH_DOMAIN = {
+    "spb": "spb.hh.ru",
+    "petrozavodsk": "spb.hh.ru",
+    "yaroslavl": "yaroslavl.hh.ru",
+}
+
+HH_AREA = {
+    "spb": 2,
+    "petrozavodsk": 63,
+    "yaroslavl": 44,
+}
+
+
+def fetch_hh_resumes(area: int, cat_key: str) -> list[dict]:
+    """Получает резюме с hh.ru для заданного area и категории."""
+    # Здесь должна быть логика парсинга hh.ru
+    # Заглушка для совместимости
+    return []
+
+
+def enrich_resume(item: dict) -> dict:
+    """Обогащает резюме дополнительными данными (город, зарплата и т.д.)."""
+    # Заглушка для совместимости
+    return item
+
+
 def parse_updated_days(updated: str) -> int | None:
     """Возвращает сколько дней назад обновлено резюме, или None если не распознано."""
     s = (updated or "").strip().lower()
