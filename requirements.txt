@@ -2,9 +2,7 @@ aiogram>=3.4.0,<3.5.0
 httpx>=0.27.0
 beautifulsoup4>=4.12.0
 lxml>=5.0.0
-socksio>=1.0.0
+drissionpage>=4.0.0
 aiohttp>=3.9.0,<3.10.0
-aiohttp-socks>=0.12.0
-curl_cffi>=0.16.0
-python-socks>=2.4.3
+aiohttp-socks==0.11.0
 cloudscraper>=1.2.0
